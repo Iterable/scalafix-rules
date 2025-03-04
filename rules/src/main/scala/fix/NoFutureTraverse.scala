@@ -8,7 +8,7 @@ import scalafix.lint._
 import scalafix.v1._
 
 case class NoFutureTraverseConfig(
-  isError: Boolean = false
+    isError: Boolean = false
 )
 object NoFutureTraverseConfig {
   implicit val surface: Surface[NoFutureTraverseConfig] =
@@ -21,7 +21,8 @@ class NoFutureTraverse(config: NoFutureTraverseConfig) extends SemanticRule("NoF
 
   case class Deprecation(position: Position, name: String) extends Diagnostic {
     override def message = s"$name is deprecated"
-    override def severity = if (config.isError) LintSeverity.Error else LintSeverity.Warning
+    override def severity =
+      if (config.isError) LintSeverity.Error else LintSeverity.Warning
   }
 
   def this() = this(NoFutureTraverseConfig())
@@ -31,8 +32,10 @@ class NoFutureTraverse(config: NoFutureTraverseConfig) extends SemanticRule("NoF
       .getOrElse("NoFutureTraverse")(this.config)
       .map(c => new NoFutureTraverse(c))
 
-  val futureTraverse = SymbolMatcher.normalized("scala.concurrent.Future.traverse")
-  val futureSequence = SymbolMatcher.normalized("scala.concurrent.Future.sequence")
+  val futureTraverse =
+    SymbolMatcher.normalized("scala.concurrent.Future.traverse")
+  val futureSequence =
+    SymbolMatcher.normalized("scala.concurrent.Future.sequence")
 
   override def fix(implicit doc: SemanticDocument): Patch = {
     doc.tree.collect {

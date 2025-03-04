@@ -4,38 +4,32 @@ Repository of custom scalafix rules for Iterable projects.
 
 ## Usage
 
-This library is not published anywhere yet, so you'll first need to build and publish locally with:
-```
-sbt publishLocal
-```
-Then you can reference the published library version in your project.
-
-For example, you can run version `0.1.0` of `NoFutureTraverse` dynamically in the `sbt` console:
-
-```
-scalafix dependency:NoFutureTraverse@com.iterable::scalafix-rules:0.1.0
-```
-
-Replace the version `0.1.0` with the version you published.
-
-To run the rules by default with `scalafix` or `scalafixAll`, you'll need to add a library dependency in `build.sbt`:
+See the tags on this repo to find the the latest version or the version you want to use. You can use the rules in your project by adding a dependency to the `scalafix-rules` artifact:
 
 ```scala
 ThisBuild / libraryDependencies += "com.iterable" %% "scalafix-rules" % "0.1.0" % ScalafixConfig
 ```
 
-Then you can add the rules in your `.scalafix.conf` file, e.g.:
+This will make the rules available to reference in your `.scalafix.conf` file.
+
+You can also run directly from the sbt console without including it in your build.
+For example, to run version `0.1.0` of `NoFutureTraverse` dynamically in the `sbt` console:
+
+```
+scalafix dependency:NoFutureTraverse@com.iterable::scalafix-rules:0.1.0
+```
+
+### NoFutureTraverse
+
+Disallows the use of `Future.traverse` in your Scala code, to prevent a potentially unbounded number of concurrent tasks from being run at once.
 
 ```hocon
 rules = [
   # ...
-  NoFutureTraverse # validate that Future.traverse is not used
+  NoFutureTraverse
 ]
 
-# Configuration for the NoFutureTraverse rule
 NoFutureTraverse {
-  isError = true
+  isError = true # Whether to treat violations as errors (default: true)
 }
 ```
-
-
