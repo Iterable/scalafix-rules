@@ -23,7 +23,7 @@ scalafix dependency:NoFutureTraverse@com.iterable::scalafix-rules:0.1.0
 
 ### NoFutureTraverse
 
-Warns against or disallows the use of `Future.traverse` in your Scala code, to prevent a potentially unbounded number of concurrent tasks from being run at once.
+Warns against or disallows the use of `Future.traverse` and `Future.sequence` in your Scala code, to prevent a potentially unbounded number of concurrent tasks from being run at once.
 
 ```hocon
 rules = [
@@ -32,6 +32,7 @@ rules = [
 ]
 
 NoFutureTraverse {
-  isError = true # Whether to treat violations as errors (default: false)
+  isError = false # Whether to treat violations as errors (default: false)
+  extraMessage = null # Additional deprecation message. Can be used to suggest an alternative.
 }
 ```
